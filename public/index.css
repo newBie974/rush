@@ -2,9 +2,10 @@
   display: flex;
   flex-flow: row wrap;
   text-align: center;
+  min-height: 100vh;
 }
 
 .wrapper > * {
   padding: 10px;
-  flex: 1 100%
+  flex: 1 100%;
 } 

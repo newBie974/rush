@@ -1,9 +1,11 @@
 import React from 'react';
 
+import Styled from './aside.styled'
+
 const Nav = () => (
-  <aside>
+  <Styled>
     On the right
-  </aside>
+  </Styled>
 );
 
 export default Nav;
