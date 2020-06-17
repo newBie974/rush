@@ -18,16 +18,6 @@ const HomePage = () => {
   const [search, setSearch] = useState([]);
 
   const debounceTerm = useDebounce(search, 200);
-  const loadingMessage = () => {
-    /** Shoulb be a component
-      https://www.freecodecamp.org/forum/t/functions-are-not-valid-as-a-react-child/244914/4
-     */
-    if (pokemons.length && !pokemonFiltered.length) {
-      return 'Pas de resultat recherche';
-    }
-    return 'Loading...';
-  }
-
 
   useEffect(() => {
     (async function hookHandleGetAllPokemons() {
@@ -52,7 +42,7 @@ const HomePage = () => {
     (function hookHandlerSearch() {
       handleSearch(debounceTerm);
     })()
-  }, [debounceTerm])
+  }, [debounceTerm, pokemons])
 
   return (
     <section>
