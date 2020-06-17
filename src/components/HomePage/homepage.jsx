@@ -10,29 +10,24 @@ import SearchBar from '../../modules/SearchBar/searchBar';
 
 import getAll from '../../api/getAll';
 
+import useDebounce from '../../hooks/useDebounce';
+
 const HomePage = () => {
   const [pokemons, setPokemons] = useState([]);
   const [pokemonFiltered, setPokemonFiltered] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState([]);
 
+  const debounceTerm = useDebounce(search, 200);
   const loadingMessage = () => {
+    /** Shoulb be a component
+      https://www.freecodecamp.org/forum/t/functions-are-not-valid-as-a-react-child/244914/4
+     */
     if (pokemons.length && !pokemonFiltered.length) {
       return 'Pas de resultat recherche';
     }
     return 'Loading...';
   }
 
-  const handleSearch = (term) => {
-    setSearch(term);
-    if (!term) {
-      setPokemonFiltered(pokemons);
-      return;
-    }
-    const filteredList = pokemons
-      .filter(({ name }) => name.startsWith(term));
-    setPokemonFiltered(filteredList);
-    return;
-  }
 
   useEffect(() => {
     (async function hookHandleGetAllPokemons() {
@@ -42,10 +37,26 @@ const HomePage = () => {
     })()
   }, [])
 
+
+  useEffect(() => {
+    const handleSearch = (term) => {
+      if (!term) {
+        setPokemonFiltered(pokemons);
+        return;
+      }
+      const filteredList = pokemons
+        .filter(({ name }) => name.startsWith(term));
+      setPokemonFiltered(filteredList);
+      return;
+    }
+    (function hookHandlerSearch() {
+      handleSearch(debounceTerm);
+    })()
+  }, [debounceTerm])
+
   return (
     <section>
-      <SearchBar onChange={event => handleSearch(event.target.value)}/>
-      { !pokemons.length && <div> Loading... </div> }
+      <SearchBar onChange={event => setSearch(event.target.value)}/>
       { pokemonFiltered.length
         ? <div> 
             Tous les pokemons {pokemonFiltered.length}
@@ -57,7 +68,7 @@ const HomePage = () => {
               )}
             </ul>
           </div>
-        : <div> {() => loadingMessage()} </div>
+        : <div> {pokemons.length && !pokemonFiltered.length ? 'Pas de resultat recherche' : 'Loading...'} </div>
       }
     </section>
   );

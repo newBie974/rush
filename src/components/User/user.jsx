@@ -16,10 +16,10 @@ const User = () => {
 
   return (
     <section>
-      Name: { pokemon.name }
-      Id: { pokemon.order }
-      Base: { pokemon.base_experience }
-      Height: { pokemon.height }
+      Name: { pokemon.name } <br/>
+      Id: { pokemon.order } <br/>
+      Base: { pokemon.base_experience } <br/>
+      Height: { pokemon.height } <br/>
     </section>
   )
 };
