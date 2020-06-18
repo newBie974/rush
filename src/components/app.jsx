@@ -14,37 +14,33 @@ import Aside from '../modules/Aside/aside';
 import Styled from './app.styled';
 
 const pokemons = {
-  filtered: {},
-  list: {}
+  filtered: [],
+  list: []
 };
 const PokemonContext = React.createContext(pokemons);
 
 const App = () => (
-  <PokemonContext.Provider value={{}}>
-    <Router>
-      <PokemonContext.Consumer>
-        {
-          (value) => {
-            return (<Header Pokemon={value}/>);
-          }
+  <Router>
+    <PokemonContext.Consumer>
+      {
+        (value) => {
+          return (<Header pokemons={value}/>);
         }
-      </PokemonContext.Consumer>
-      <Nav />
-      <PokemonContext.Consumer>
-        {
-          (value) => {
-            return (
-              <Styled>
-                <Routing Pokemon={value}/>
-              </Styled>
-            )
-          }
+      }
+    <Nav />
+      {
+        (value) => {
+          return (
+            <Styled>
+              <Routing pokemons={value}/>
+            </Styled>
+          )
         }
-      </PokemonContext.Consumer>
-      <Aside />
-      <Footer />
-    </Router>
-  </PokemonContext.Provider>
+      }
+    </PokemonContext.Consumer>
+    <Aside />
+    <Footer />
+  </Router>
 );
 
 export default App;

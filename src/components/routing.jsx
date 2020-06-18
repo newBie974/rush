@@ -6,11 +6,13 @@ import About from './About/about';
 import User from './User/user';
 
 
-const Routing = () => (
+const Routing = ({ pokemons }) => (
   <Switch>
     <Route path="/about" component={About}/>
     <Route path="/:id" component={User} />
-    <Route path="/" component={HomePage} />
+    <Route path="/" >
+      <HomePage pokemons={{ list: pokemons.list,  filtered: pokemons.filtered }}/>
+    </Route>
   </Switch>
 )
 

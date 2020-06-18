@@ -6,8 +6,9 @@ import SearchBar from '../../modules/SearchBar/searchBar';
 import useDebounce from '../../hooks/useDebounce';
 
 
-const Header = ({ Pokemon }) => {
+const Header = ({ pokemons }) => {
   const [search, setSearch] = useState([]);
+  console.log(pokemons)
   const debounceTerm = useDebounce(search, 200);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const Header = ({ Pokemon }) => {
       return;
     }
     (function hookHandlerSearch() {
+      console.log('icic');
       handleSearch(debounceTerm);
     })()
   }, [debounceTerm])
