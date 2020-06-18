@@ -14,7 +14,6 @@ import { PokemonContext } from '../app';
 const HomePage = () => {
   const { pokemons, setPokemons }= useContext(PokemonContext);
   const { list, filter } = pokemons;
-  console.log(pokemons)
   useEffect(() => {
     (async function hookHandleGetAllPokemons() {
       const allPokemons = await getAll();

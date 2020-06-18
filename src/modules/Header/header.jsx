@@ -11,17 +11,17 @@ const Header = () => {
   const [search, setSearch] = useState([]);
   const debounceTerm = useDebounce(search, 200);
   const { pokemons, setPokemons }= useContext(PokemonContext);
-  const { list, filter: originalFilter } = pokemons;
+  const { list } = pokemons;
   useEffect(() => {
     const handleSearch = (term) => {
       if (!term || !term.length) {
-        setPokemons({ ...pokemons, filter: pokemons.list });
+        setPokemons({ list, filter: list });
         return;
       }
-      console.log(list);
+
       const filter =  list
         .filter(({ name }) => name.startsWith(term));
-      setPokemons({ ...pokemons, filter });
+      setPokemons({ list, filter });
       return;
     }
     (function hookHandlerSearch() {
