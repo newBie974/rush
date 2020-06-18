@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
 } from 'react-router-dom';
@@ -13,38 +13,29 @@ import Aside from '../modules/Aside/aside';
 
 import Styled from './app.styled';
 
-const pokemons = {
-  filtered: {},
-  list: {}
-};
-const PokemonContext = React.createContext(pokemons);
-
-const App = () => (
-  <PokemonContext.Provider value={{}}>
+const PokemonContext = React.createContext();
+/**
+  https://blog.nathanaelcherrier.com/en/updating-react-context-from-consumer/
+  https://www.taniarascia.com/using-context-api-in-react/
+ */
+const App = () => {
+  const [pokemons, setPokemons] = useState({ list: {}, filter: {} });
+  return (
     <Router>
-      <PokemonContext.Consumer>
-        {
-          (value) => {
-            return (<Header Pokemon={value}/>);
-          }
-        }
-      </PokemonContext.Consumer>
-      <Nav />
-      <PokemonContext.Consumer>
-        {
-          (value) => {
-            return (
-              <Styled>
-                <Routing Pokemon={value}/>
-              </Styled>
-            )
-          }
-        }
-      </PokemonContext.Consumer>
-      <Aside />
-      <Footer />
+      <PokemonContext.Provider value={{ pokemons, setPokemons }}>
+        <Header />
+        <Nav />
+        <Styled>
+          <Routing />
+        </Styled>
+        <Aside />
+        <Footer />
+      </ PokemonContext.Provider>
     </Router>
-  </PokemonContext.Provider>
-);
+  );
+}
 
 export default App;
+export {
+  PokemonContext
+}

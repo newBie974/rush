@@ -10,7 +10,9 @@ const Routing = () => (
   <Switch>
     <Route path="/about" component={About}/>
     <Route path="/:id" component={User} />
-    <Route path="/" component={HomePage} />
+    <Route path="/" >
+      <HomePage />
+    </Route>
   </Switch>
 )
 
