@@ -1,6 +1,7 @@
 import React, {
   useEffect,
-  useState
+  useState,
+  useContext,
 } from 'react';
 import {
   Link
@@ -8,31 +9,33 @@ import {
 
 import getAll from '../../api/getAll';
 
-const HomePage = ({ pokemons }) => {
-  const [list, setList] = useState(pokemons.list);
-  const [filteredList, setFilteredList] = useState(pokemons.filtered);
+import { PokemonContext } from '../app';
+
+const HomePage = () => {
+  const { pokemons, setPokemons }= useContext(PokemonContext);
+  const { list, filter } = pokemons;
+  console.log(pokemons)
   useEffect(() => {
     (async function hookHandleGetAllPokemons() {
       const allPokemons = await getAll();
-      setList(allPokemons);
-      setFilteredList(allPokemons)
+      setPokemons({ list: allPokemons, filter: allPokemons})
     })()
   }, [])
 
   return (
     <section>
-      { filteredList.length
+      { filter.length
         ? <div> 
-            Tous les pokemons {filteredList.length}
+            Tous les pokemons {filter.length}
             <ul>
-              {filteredList.map(({ id, name, link }) => 
+              {filter.map(({ id, name, link }) => 
                 <li key={id} data-search={name}>
                   <Link to={`/${id}`} >{id} - {name}</Link>
                 </li>
               )}
             </ul>
           </div>
-        : <div> { list.length && !filteredList.length ? 'Pas de resultat recherche' : 'Loading...'} </div>
+        : <div> { list.length && !filter.length ? 'Pas de resultat recherche' : 'Loading...'} </div>
       }
     </section>
   );

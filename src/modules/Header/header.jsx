@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import Styled from './header.styled';
 
 import SearchBar from '../../modules/SearchBar/searchBar';
 import useDebounce from '../../hooks/useDebounce';
 
+import { PokemonContext } from '../../components/app';
 
-const Header = ({ pokemons }) => {
+const Header = () => {
   const [search, setSearch] = useState([]);
-  console.log(pokemons)
   const debounceTerm = useDebounce(search, 200);
-
+  const { pokemons, setPokemons }= useContext(PokemonContext);
+  const { list, filter: originalFilter } = pokemons;
   useEffect(() => {
     const handleSearch = (term) => {
-      if (!term) {
-        // setPokemonFiltered(pokemons);
+      if (!term || !term.length) {
+        setPokemons({ ...pokemons, filter: pokemons.list });
         return;
       }
-      // const filteredList = Pokemon.list
-      //   .filter(({ name }) => name.startsWith(term));
-      // setPokemonFiltered(filteredList);
+      console.log(list);
+      const filter =  list
+        .filter(({ name }) => name.startsWith(term));
+      setPokemons({ ...pokemons, filter });
       return;
     }
     (function hookHandlerSearch() {
-      console.log('icic');
       handleSearch(debounceTerm);
     })()
   }, [debounceTerm])
